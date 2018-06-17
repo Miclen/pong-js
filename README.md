@@ -1,1 +1,2 @@
 # pong-js
+JS game
