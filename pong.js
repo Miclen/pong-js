@@ -24,8 +24,8 @@ const lineHeight = 16;
 let ballSpeedX = 4;  //predkosc pilki w osi X
 let ballSpeedY = 4;  //predkosc pilki w osi Y
 
-let playerScore;
-let aiScore;
+let playerScore = 0;
+let aiScore = 0;
 
 function ai(){ //przeciwnik
     ctx.fillStyle = "yellow";
@@ -67,15 +67,21 @@ function ball(){
     else if (ballX < playerX){
         console.log("lewa sciana")
         aiScore++;
+        console.log(aiScore)
+        return ballX = cw/2-ballSize/2, ballY = ch/2-ballSize/2, ballSpeedX = 3, ballSpeedY = 3;
     }
     else if (ballX > aiX){
         console.log("prawa sciana")
         playerScore++;
+        return ballX = cw/2-ballSize/2, ballY = ch/2-ballSize/2, ballSpeedX = 3, ballSpeedY = 3;
+    }
+    if(aiScore == 5 || playerScore == 5){
+        aiScore = 0;
+        playerScore = 0;
     }
 }
 
 topCanvas = canvas.offsetTop;
-console.log(topCanvas)
 
 function playerPosition(e){ //event
     // console.log ("pozycja myszy to " + (e.clientY - topCanvas))  //clientY-pozycja myszki
@@ -109,51 +115,76 @@ function aiPosition(){
     var middleBall = ballY + ballSize/2;
 
     if(ballX > 500){
-        if(middlePaddel - middleBall > 300){
-            //console.log(">+200");
+        if(middlePaddel - middleBall > 550){
+            aiY -=80;
+        }
+        else if(middlePaddel - middleBall > 300){
             aiY -=30;
         }
         else if(middlePaddel - middleBall > 250){
-            //console.log(">+200");
             aiY -=25;
         }
         else if(middlePaddel - middleBall > 200){
-            //console.log(">+200");
             aiY -=20;
         }
+        else if(middlePaddel - middleBall > 150){
+            aiY -=45;
+        }
+        else if(middlePaddel - middleBall > 100){
+            aiY -=40;
+        }
         else if(middlePaddel - middleBall > 50){
-            //console.log("+50-200");
-            aiY -= 15;
+            aiY -= 20;
+        }
+        else if(middlePaddel - middleBall < -550){
+            aiY += 80;
         }
         else if(middlePaddel - middleBall < -300){
-            //console.log("-50 - (-200)";
             aiY += 30;
         }
         else if(middlePaddel - middleBall < -250){
-            //console.log("-50 - (-200)";
             aiY += 25;
         }
         else if(middlePaddel - middleBall < -200){
-            //console.log("<-200");
-            aiY +=20;
+            aiY +=30;
+        }
+        else if(middlePaddel - middleBall < -150){
+            aiY +=30;
+        }
+        else if(middlePaddel - middleBall < -100){
+            aiY +=25;
         }
         else if(middlePaddel - middleBall < -50){
-            //console.log("-50 - (-200)";
-            aiY += 15;
+            aiY += 20;
         }
     }
     else if (ballX <= 500 && ballX > 150){
-        if(middlePaddel - middleBall > 100){
-            aiY -= 10;
+        if(middlePaddel - middleBall > 200){
+            aiY -= 20;
+        }
+        if(middlePaddel - middleBall > 150){
+            aiY -= 30;
+        }
+        else if(middlePaddel - middleBall > 100){
+            aiY -= 40;
+        }
+        else if(middlePaddel - middleBall < -200){
+            aiY += 20;
+        }
+        else if(middlePaddel - middleBall < -200){
+            aiY += 30;
         }
         else if(middlePaddel - middleBall < -100){
-            aiY += 10;
+            aiY += 40;
         }
     }
 }
-
+function score(){
+    var text = document.getElementById("score").innerHTML = playerScore + ":" + aiScore;
+}
 canvas.addEventListener("mousemove",playerPosition)
 function game(){
+    score()
     table()
     ball()
     player()
